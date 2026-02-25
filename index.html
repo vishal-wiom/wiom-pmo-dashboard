@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wiom Objectives</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: #0a0a0a; color: #e5e5e5; line-height: 1.6; }
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+header { display: flex; justify-content: space-between; align-items: center; padding: 24px 0 16px; border-bottom: 1px solid #222; margin-bottom: 32px; }
+header h1 { font-size: 28px; font-weight: 700; color: #fff; }
+header h1 span { color: #ff1493; }
+.timestamp { color: #888; font-size: 13px; }
+
+/* Nav Tabs */
+.nav { display: flex; gap: 4px; margin-bottom: 32px; background: #141414; border-radius: 12px; padding: 4px; flex-wrap: wrap; }
+.nav-btn { padding: 10px 20px; background: transparent; border: none; color: #888; font-family: inherit; font-size: 14px; font-weight: 500; border-radius: 8px; cursor: pointer; transition: all .2s; }
+.nav-btn:hover { color: #ccc; background: #1a1a1a; }
+.nav-btn.active { background: #ff1493; color: #fff; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* Executive Strip */
+.exec-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.metric-card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 20px; text-align: center; }
+.metric-card .value { font-size: 36px; font-weight: 700; color: #ff1493; }
+.metric-card .label { font-size: 13px; color: #888; margin-top: 4px; text-transform: uppercase; letter-spacing: .5px; }
+.metric-card.alert .value { color: #ef4444; }
+
+/* Status Distribution */
+.status-section { margin-bottom: 32px; }
+.bar-container { display: flex; height: 32px; border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+.bar-seg { transition: width .3s; min-width: 2px; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #ccc; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* Badges & Pills */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+.badge-high { background: rgba(239,68,68,.15); color: #f87171; border: 1px solid rgba(239,68,68,.3); }
+.badge-medium { background: rgba(168,85,247,.15); color: #c084fc; border: 1px solid rgba(168,85,247,.3); }
+.badge-tactical { background: rgba(245,158,11,.15); color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
+.status-pill { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 500; }
+.status-dev { background: rgba(59,130,246,.15); color: #60a5fa; }
+.status-design { background: rgba(168,85,247,.15); color: #c084fc; }
+.status-devdesign { background: rgba(99,102,241,.15); color: #a5b4fc; }
+.status-rca { background: rgba(239,68,68,.15); color: #f87171; }
+.status-ready { background: rgba(34,197,94,.15); color: #4ade80; }
+.status-decision { background: rgba(245,158,11,.15); color: #fbbf24; }
+.status-developed { background: rgba(20,184,166,.15); color: #2dd4bf; }
+.status-other { background: rgba(107,114,128,.15); color: #9ca3af; }
+
+/* Cards */
+.category-block { margin-bottom: 32px; }
+.category-title { font-size: 20px; font-weight: 700; color: #ff1493; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #222; }
+.objective-title { font-size: 15px; font-weight: 600; color: #ccc; margin-bottom: 12px; padding-left: 4px; }
+.objective-block { margin-bottom: 24px; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 16px; margin-bottom: 8px; }
+.card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 16px; transition: border-color .2s; }
+.card:hover { border-color: #ff1493; }
+.card-top { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+.card-body { font-size: 14px; color: #ccc; margin-bottom: 10px; line-height: 1.5; }
+.card-eta { font-size: 12px; color: #888; font-weight: 500; }
+.card-notes { font-size: 12px; color: #666; margin-top: 6px; font-style: italic; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #222; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: #141414; color: #888; text-transform: uppercase; font-size: 11px; letter-spacing: .5px; font-weight: 600; padding: 12px 14px; text-align: left; position: sticky; top: 0; }
+td { padding: 10px 14px; border-top: 1px solid #1a1a1a; vertical-align: top; }
+tr:hover { background: #141414; }
+tr.row-high { background: rgba(239,68,68,.04); }
+.item-col { max-width: 400px; }
+
+/* Section titles */
+.section-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+.section-title span { color: #ff1493; }
+
+.empty-state { text-align: center; color: #666; padding: 40px; font-size: 15px; }
+</style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1><span>Wiom</span> Objectives</h1>
+        <div class="timestamp">Generated Wednesday, February 25, 2026 10:38 AM</div>
+    </header>
+
+    <nav class="nav">
+        <button class="nav-btn active" onclick="showTab('summary')">Executive Summary</button>
+        <button class="nav-btn" onclick="showTab('category')">By Category</button>
+        <button class="nav-btn" onclick="showTab('attention')">Needs Attention (6)</button>
+        <button class="nav-btn" onclick="showTab('week')">This Week (16)</button>
+        <button class="nav-btn" onclick="showTab('full')">Full Table</button>
+    </nav>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <div id="tab-summary" class="section active">
+        <div class="exec-strip">
+            <div class="metric-card"><div class="value">25</div><div class="label">Total Items</div></div>
+            <div class="metric-card alert"><div class="value">18</div><div class="label">High Priority</div></div>
+            <div class="metric-card"><div class="value">16</div><div class="label">Due This Week</div></div>
+            <div class="metric-card"><div class="value">8</div><div class="label">ETA TBD</div></div>
+            <div class="metric-card"><div class="value">6</div><div class="label">Needs Attention</div></div>
+        </div>
+        <div class="status-section">
+            <h3 class="section-title">Status <span>Distribution</span></h3>
+            <div class="bar-container"><div class="bar-seg" style="width:32.0%;background:#3b82f6" title="In Dev: 8"></div><div class="bar-seg" style="width:28.0%;background:#a855f7" title="In Design: 7"></div><div class="bar-seg" style="width:12.0%;background:#ef4444" title="RCA: 3"></div><div class="bar-seg" style="width:8.0%;background:#6366f1" title="In Dev / Design: 2"></div><div class="bar-seg" style="width:8.0%;background:#f59e0b" title="Decisions Pending: 2"></div><div class="bar-seg" style="width:4.0%;background:#14b8a6" title="Developed: 1"></div><div class="bar-seg" style="width:4.0%;background:#6b7280" title="Design provided, feedback to be incorporated
+Partner location check follows after location is in system: 1"></div><div class="bar-seg" style="width:4.0%;background:#22c55e" title="Ready for Release: 1"></div></div>
+            <div class="legend"><div class="legend-item"><span class="legend-dot" style="background:#3b82f6"></span>In Dev <strong>8</strong></div><div class="legend-item"><span class="legend-dot" style="background:#a855f7"></span>In Design <strong>7</strong></div><div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span>RCA <strong>3</strong></div><div class="legend-item"><span class="legend-dot" style="background:#6366f1"></span>In Dev / Design <strong>2</strong></div><div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>Decisions Pending <strong>2</strong></div><div class="legend-item"><span class="legend-dot" style="background:#14b8a6"></span>Developed <strong>1</strong></div><div class="legend-item"><span class="legend-dot" style="background:#6b7280"></span>Design provided, feedback to be incorporated
+Partner location check follows after location is in system <strong>1</strong></div><div class="legend-item"><span class="legend-dot" style="background:#22c55e"></span>Ready for Release <strong>1</strong></div></div>
+        </div>
+    </div>
+
+    <!-- BY CATEGORY -->
+    <div id="tab-category" class="section">
+        <h3 class="section-title">Items by <span>Category &gt; Objective</span></h3>
+        <div class="category-block"><h3 class="category-title">Belief Integrity</h3><div class="objective-block"><h4 class="objective-title">Clarity</h4><div class="card-grid"><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-dev">In Dev</span></div>
+                    <div class="card-body">A customer who is confused during booking gets help at the point of confusion, not after — chat-based contextual guidance embedded in the booking flow.</div>
+                    <div class="card-eta">ETA: Fri, Feb 27 Release</div>
+                    <div class="card-notes">prioritise for callback as well</div>
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-dev">In Dev</span></div>
+                    <div class="card-body">When a customer expresses a recognised intent, the response they get is accurate, complete, and adheres to our communication guidelines — current responses to k...</div>
+                    <div class="card-eta">ETA: Fri, Feb 27; Copy changes/improvements - Wed, Feb 25</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-dev">In Dev</span></div>
+                    <div class="card-body">A customer who is waiting knows why they are waiting and for how long — proactive delay messaging so the 40-50% of post-booking calls asking &quot;where's my install...</div>
+                    <div class="card-eta">ETA: Fri, Feb 27 Release</div>
+                    <div class="card-notes">status calls should go down</div>
+                </div></div></div><div class="objective-block"><h4 class="objective-title">Contamination</h4><div class="card-grid"><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-design">In Design</span></div>
+                    <div class="card-body">Every Wiom message reinforces the Recharge Wala Ghar Ka Net model, never contradicts it — copy across all chat touchpoints is being aligned to standards doc. In...</div>
+                    <div class="card-eta">ETA: Wed, Feb 25</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-dev">In Dev</span></div>
+                    <div class="card-body">Legacy customers who migrate carry the correct mental model of RWGKN, not their old one — migration isn't a technical switch; it's re-establishing clarity. Cont...</div>
+                    <div class="card-eta">ETA: Wed, Feb 25</div>
+                    <div class="card-notes">Decide benchmarks for comms effectiveness</div>
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-decision">Decisions Pending</span></div>
+                    <div class="card-body">Payment constructs that contradict the recharge model don't survive unchallenged — autopay and long-term plans may themselves be contamination. Do they belong i...</div>
+                    <div class="card-eta">ETA: Feb 24, 2026</div>
+                    <div class="card-notes">exclude from migration for first two weeks; see learnings; determine construct. LTP - evaluate data; ltp will exist pricing may change</div>
+                </div></div></div></div><div class="category-block"><h3 class="category-title">Operational Integrity</h3><div class="objective-block"><h4 class="objective-title">Partner Adherence</h4><div class="card-grid"><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-ready">Ready for Release</span></div>
+                    <div class="card-body">A CSP who installs feels the work is worth doing — ₹300-per-install rule. Intent is pride, not volume. Incentive must reinforce pull, not push.</div>
+                    <div class="card-eta">ETA: TBD</div>
+                    <div class="card-notes">Check if comms outside app is required, Ashish to check with Shiva/OS</div>
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-design">In Design</span></div>
+                    <div class="card-body">A CSP knows the financial consequences for breach of system rules, not after — disintermediation/ other breach asset recovery charges communicated upfront and c...</div>
+                    <div class="card-eta">ETA: Feb 25, 2026</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-medium">MEDIUM</span> <span class="status-pill status-decision">Decisions Pending</span></div>
+                    <div class="card-body">A CSP who wants to leave can leave cleanly — Exit OS so departing CSPs don't ghost or operate around the system on their way out.</div>
+                    <div class="card-eta">ETA: TBD</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-design">In Design</span></div>
+                    <div class="card-body">Partner improvisation - for partners who setup the device at office before installing at customer location, need feature to be rolled out with location capturin...</div>
+                    <div class="card-eta">ETA: TBD</div>
+                    <div class="card-notes">1. Take partner addresses for both location validation during setup at office &amp; for cx to return the routers
+2. Location capture at installation to be validated with above stored address for fraud detection</div>
+                </div></div></div><div class="objective-block"><h4 class="objective-title">System Completeness</h4><div class="card-grid"><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-design">In Design</span></div>
+                    <div class="card-body">A customer never hears &quot;yes you can get this&quot; followed by &quot;actually no you can't&quot; — the dual G1 serviceability check creates contradictory signals. May need fun...</div>
+                    <div class="card-eta">ETA: To be prioritised</div>
+                    <div class="card-notes">check for mismatch in pincodes between address entered and lat long based address</div>
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-rca">RCA</span></div>
+                    <div class="card-body">A customer who has been assigned a Rohit actually gets a Rohit — diagnosing why technicians are assigned but don't arrive.</div>
+                    <div class="card-eta">ETA: Thu, Feb 26</div>
+                    <div class="card-notes">check for Adit calling data output</div>
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-design">In Design</span></div>
+                    <div class="card-body">A customer who has paid doesn't silently disappear before confirming their location — diagnosing and fixing the drop between booking fee payment and SSID/addres...</div>
+                    <div class="card-eta">ETA: Design Feb 25, 2026</div>
+                    <div class="card-notes">design to be finalised</div>
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-devdesign">In Dev / Design</span></div>
+                    <div class="card-body">When a customer recharges, it works — every time, without manual intervention — ISP recharge automation so the &quot;I pay, I get internet&quot; loop never breaks.</div>
+                    <div class="card-eta">ETA: Agentic: Fri, Feb 27; CSP App: Thu, Feb 26; Complete Release – TARGET Thu, Feb 26 w/ release plan</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-rca">RCA</span></div>
+                    <div class="card-body">A notification sent by Wiom actually reaches the customer, the CSP, and the Rohit — delivery fixes and fallbacks so that failed notifications don't silently bre...</div>
+                    <div class="card-eta">ETA: Thu, Feb 26</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-dev">In Dev</span></div>
+                    <div class="card-body">A customer doesn't miss critical information because they weren't sitting in the app — notification system for chat messages so time-sensitive updates reach cus...</div>
+                    <div class="card-eta">ETA: Fri, Feb 27 Release</div>
+                    
+                </div></div></div></div><div class="category-block"><h3 class="category-title">Uncategorised</h3><div class="objective-block"><h4 class="objective-title">General</h4><div class="card-grid"><div class="card">
+                    <div class="card-top"><span class="badge badge-tactical">TACTICAL</span> <span class="status-pill status-dev">In Dev</span></div>
+                    <div class="card-body">Ramadan Netbox hold offer — time-bound retention for legacy customers. Not an objective; a tactical intervention.</div>
+                    <div class="card-eta">ETA: TBD</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-medium">MEDIUM</span> <span class="status-pill status-dev">In Dev</span></div>
+                    <div class="card-body">When a customer struggles to express themselves in text, the system meets them where they are — voice input, audio output, and other modalities so that literacy...</div>
+                    <div class="card-eta">ETA: Wed, Feb 25</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-medium">MEDIUM</span> <span class="status-pill status-dev">Developed</span></div>
+                    <div class="card-body">A customer in a serviceable area gets accepted; a customer in a non-serviceable area gets rejected — accurately — location accuracy improvements to eliminate fa...</div>
+                    <div class="card-eta">ETA: TBD</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-medium">MEDIUM</span> <span class="status-pill status-design">In Design</span></div>
+                    <div class="card-body">Chat interactions UX finalisation (CTA handling) — consistent interaction patterns across chat. Foundational to multiple objectives above but not an objective i...</div>
+                    <div class="card-eta">ETA: TBD</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-rca">RCA</span></div>
+                    <div class="card-body">A customer who is owed a Netbox pickup and security deposit refund gets it without chasing — multiple breakdowns in the pickup flow creating confusion for custo...</div>
+                    <div class="card-eta">ETA: Feb 25-26 [COMMUNICATION]; Design ETA – TBD</div>
+                    <div class="card-notes">inform partners about cx getting INR on router collection</div>
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-design">Design provided, feedback to be incorporated
+Partner location check follows after location is in system</span></div>
+                    <div class="card-body">A customer who wants to return their Netbox knows exactly where to take it — partner location (address + coordinates) is captured and surfaced to the customer, ...</div>
+                    <div class="card-eta">ETA: Fri, Feb 27 — blocking popup for admin</div>
+                    <div class="card-notes">FRIDAY — BLOCKING POPUP FOR ADMIN → TELL HIM TO TELL THE PARTNER TO DO CONSENT; SHOW HIM THE NUMNER OF PARTNER</div>
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-devdesign">In Dev / Design</span></div>
+                    <div class="card-body">Wiom knows where every Netbox is at every point in its lifecycle — swap, migration, pickup tracking so we stop losing visibility of our own hardware.</div>
+                    <div class="card-eta">ETA: March 6th</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-medium">MEDIUM</span> <span class="status-pill status-design">In Design</span></div>
+                    <div class="card-body">A customer's booking + installation experience at home matches the promise — median setup TAT has doubled since pre-Jan. Understanding what changed and fixing i...</div>
+                    <div class="card-eta">ETA: TBD</div>
+                    
+                </div><div class="card">
+                    <div class="card-top"><span class="badge badge-medium">MEDIUM</span> <span class="status-pill status-dev">In Dev</span></div>
+                    <div class="card-body">When a customer says something we don't currently recognise, the system understands it rather than hitting a dead end — LLM-based intent recognition to expand c...</div>
+                    <div class="card-eta">ETA: Wed, Feb 25</div>
+                    
+                </div></div></div></div>
+    </div>
+
+    <!-- NEEDS ATTENTION -->
+    <div id="tab-attention" class="section">
+        <h3 class="section-title"><span>Needs Attention</span> — High Priority with TBD/Overdue ETA or RCA</h3>
+        <div class='table-wrap'><table><thead><tr><th>#</th><th>Item</th><th>Priority</th><th>Status</th><th>ETA</th><th>Notes</th></tr></thead><tbody><tr>
+            <td>1</td>
+            <td>A customer who is owed a Netbox pickup and security deposit refund gets it without chasing — multiple breakdowns in the </td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-rca">RCA</span></td>
+            <td>Feb 25-26 [COMMUNICATION]; Design ETA – TBD</td>
+            <td>inform partners about cx getting INR on router collection</td>
+        </tr><tr>
+            <td>2</td>
+            <td>Payment constructs that contradict the recharge model don't survive unchallenged — autopay and long-term plans may thems</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-decision">Decisions Pending</span></td>
+            <td>Feb 24, 2026</td>
+            <td>exclude from migration for first two weeks; see learnings; determine construct. LTP - evaluate data; ltp will exist pricing may change</td>
+        </tr><tr>
+            <td>3</td>
+            <td>A customer who has been assigned a Rohit actually gets a Rohit — diagnosing why technicians are assigned but don't arriv</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-rca">RCA</span></td>
+            <td>Thu, Feb 26</td>
+            <td>check for Adit calling data output</td>
+        </tr><tr>
+            <td>4</td>
+            <td>A notification sent by Wiom actually reaches the customer, the CSP, and the Rohit — delivery fixes and fallbacks so that</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-rca">RCA</span></td>
+            <td>Thu, Feb 26</td>
+            <td></td>
+        </tr><tr>
+            <td>5</td>
+            <td>A CSP who installs feels the work is worth doing — ₹300-per-install rule. Intent is pride, not volume. Incentive must re</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-ready">Ready for Release</span></td>
+            <td>TBD</td>
+            <td>Check if comms outside app is required, Ashish to check with Shiva/OS</td>
+        </tr><tr>
+            <td>6</td>
+            <td>Partner improvisation - for partners who setup the device at office before installing at customer location, need feature</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-design">In Design</span></td>
+            <td>TBD</td>
+            <td>1. Take partner addresses for both location validation during setup at office &amp; for cx to return the routers
+2. Location capture at installation to be validated with above stored address for fraud detection</td>
+        </tr></tbody></table></div>
+    </div>
+
+    <!-- THIS WEEK -->
+    <div id="tab-week" class="section">
+        <h3 class="section-title">This <span>Week's</span> Deliverables</h3>
+        <div class='table-wrap'><table><thead><tr><th>#</th><th>Item</th><th>Priority</th><th>Status</th><th>ETA</th></tr></thead><tbody><tr>
+            <td>1</td>
+            <td>When a customer struggles to express themselves in text, the system meets them where they are — voice input, audio outpu</td>
+            <td><span class="badge badge-medium">MEDIUM</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Wed, Feb 25</td>
+        </tr><tr>
+            <td>2</td>
+            <td>A customer who is owed a Netbox pickup and security deposit refund gets it without chasing — multiple breakdowns in the </td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-rca">RCA</span></td>
+            <td>Feb 25-26 [COMMUNICATION]; Design ETA – TBD</td>
+        </tr><tr>
+            <td>3</td>
+            <td>A customer who wants to return their Netbox knows exactly where to take it — partner location (address + coordinates) is</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-design">Design provided, feedback to be incorporated
+Partner location check follows after location is in system</span></td>
+            <td>Fri, Feb 27 — blocking popup for admin</td>
+        </tr><tr>
+            <td>4</td>
+            <td>When a customer says something we don't currently recognise, the system understands it rather than hitting a dead end — </td>
+            <td><span class="badge badge-medium">MEDIUM</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Wed, Feb 25</td>
+        </tr><tr>
+            <td>5</td>
+            <td>Every Wiom message reinforces the Recharge Wala Ghar Ka Net model, never contradicts it — copy across all chat touchpoin</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-design">In Design</span></td>
+            <td>Wed, Feb 25</td>
+        </tr><tr>
+            <td>6</td>
+            <td>Legacy customers who migrate carry the correct mental model of RWGKN, not their old one — migration isn't a technical sw</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Wed, Feb 25</td>
+        </tr><tr>
+            <td>7</td>
+            <td>Payment constructs that contradict the recharge model don't survive unchallenged — autopay and long-term plans may thems</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-decision">Decisions Pending</span></td>
+            <td>Feb 24, 2026</td>
+        </tr><tr>
+            <td>8</td>
+            <td>A customer who is confused during booking gets help at the point of confusion, not after — chat-based contextual guidanc</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Fri, Feb 27 Release</td>
+        </tr><tr>
+            <td>9</td>
+            <td>When a customer expresses a recognised intent, the response they get is accurate, complete, and adheres to our communica</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Fri, Feb 27; Copy changes/improvements - Wed, Feb 25</td>
+        </tr><tr>
+            <td>10</td>
+            <td>A customer who is waiting knows why they are waiting and for how long — proactive delay messaging so the 40-50% of post-</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Fri, Feb 27 Release</td>
+        </tr><tr>
+            <td>11</td>
+            <td>A customer who has been assigned a Rohit actually gets a Rohit — diagnosing why technicians are assigned but don't arriv</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-rca">RCA</span></td>
+            <td>Thu, Feb 26</td>
+        </tr><tr>
+            <td>12</td>
+            <td>A customer who has paid doesn't silently disappear before confirming their location — diagnosing and fixing the drop bet</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-design">In Design</span></td>
+            <td>Design Feb 25, 2026</td>
+        </tr><tr>
+            <td>13</td>
+            <td>When a customer recharges, it works — every time, without manual intervention — ISP recharge automation so the &quot;I pay, I</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-devdesign">In Dev / Design</span></td>
+            <td>Agentic: Fri, Feb 27; CSP App: Thu, Feb 26; Complete Release – TARGET Thu, Feb 26 w/ release plan</td>
+        </tr><tr>
+            <td>14</td>
+            <td>A notification sent by Wiom actually reaches the customer, the CSP, and the Rohit — delivery fixes and fallbacks so that</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-rca">RCA</span></td>
+            <td>Thu, Feb 26</td>
+        </tr><tr>
+            <td>15</td>
+            <td>A customer doesn't miss critical information because they weren't sitting in the app — notification system for chat mess</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Fri, Feb 27 Release</td>
+        </tr><tr>
+            <td>16</td>
+            <td>A CSP knows the financial consequences for breach of system rules, not after — disintermediation/ other breach asset rec</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-design">In Design</span></td>
+            <td>Feb 25, 2026</td>
+        </tr></tbody></table></div>
+    </div>
+
+    <!-- FULL TABLE -->
+    <div id="tab-full" class="section">
+        <h3 class="section-title">Complete <span>Item Table</span></h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>#</th><th>Category</th><th>Objective</th><th>Item</th><th>Priority</th><th>Status</th><th>ETA</th><th>Notes</th></tr></thead>
+                <tbody><tr class="">
+            <td>1</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="item-col">Ramadan Netbox hold offer — time-bound retention for legacy customers. Not an objective; a tactical intervention.</td>
+            <td><span class="badge badge-tactical">TACTICAL</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>TBD</td>
+            <td></td>
+        </tr><tr class="">
+            <td>2</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="item-col">When a customer struggles to express themselves in text, the system meets them where they are — voice input, audio output, and other modalities so that literacy or typing comfort is not a barrier to clarity. The customer who can't type their question clearly still deserves to understand what they bought.</td>
+            <td><span class="badge badge-medium">MEDIUM</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Wed, Feb 25</td>
+            <td></td>
+        </tr><tr class="">
+            <td>3</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="item-col">A customer in a serviceable area gets accepted; a customer in a non-serviceable area gets rejected — accurately — location accuracy improvements to eliminate false positives and false negatives at booking.</td>
+            <td><span class="badge badge-medium">MEDIUM</span></td>
+            <td><span class="status-pill status-dev">Developed</span></td>
+            <td>TBD</td>
+            <td></td>
+        </tr><tr class="">
+            <td>4</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="item-col">Chat interactions UX finalisation (CTA handling) — consistent interaction patterns across chat. Foundational to multiple objectives above but not an objective in itself.</td>
+            <td><span class="badge badge-medium">MEDIUM</span></td>
+            <td><span class="status-pill status-design">In Design</span></td>
+            <td>TBD</td>
+            <td></td>
+        </tr><tr class="row-high">
+            <td>5</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="item-col">A customer who is owed a Netbox pickup and security deposit refund gets it without chasing — multiple breakdowns in the pickup flow creating confusion for customers and CSPs.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-rca">RCA</span></td>
+            <td>Feb 25-26 [COMMUNICATION]; Design ETA – TBD</td>
+            <td>inform partners about cx getting INR on router collection</td>
+        </tr><tr class="row-high">
+            <td>6</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="item-col">A customer who wants to return their Netbox knows exactly where to take it — partner location (address + coordinates) is captured and surfaced to the customer, enabling self-service returns without depending on the pickup system. The same data gives Wiom fraud visibility: installations clustering at a partner's own location is a red flag, not a growth signal.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-design">Design provided, feedback to be incorporated
+Partner location check follows after location is in system</span></td>
+            <td>Fri, Feb 27 — blocking popup for admin</td>
+            <td>FRIDAY — BLOCKING POPUP FOR ADMIN → TELL HIM TO TELL THE PARTNER TO DO CONSENT; SHOW HIM THE NUMNER OF PARTNER</td>
+        </tr><tr class="row-high">
+            <td>7</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="item-col">Wiom knows where every Netbox is at every point in its lifecycle — swap, migration, pickup tracking so we stop losing visibility of our own hardware.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-devdesign">In Dev / Design</span></td>
+            <td>March 6th</td>
+            <td></td>
+        </tr><tr class="">
+            <td>8</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="item-col">A customer's booking + installation experience at home matches the promise — median setup TAT has doubled since pre-Jan. Understanding what changed and fixing it.</td>
+            <td><span class="badge badge-medium">MEDIUM</span></td>
+            <td><span class="status-pill status-design">In Design</span></td>
+            <td>TBD</td>
+            <td></td>
+        </tr><tr class="">
+            <td>9</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="item-col">When a customer says something we don't currently recognise, the system understands it rather than hitting a dead end — LLM-based intent recognition to expand coverage beyond hardcoded flows. A dead-end response is a vacuum the customer fills with their own (wrong) mental model.</td>
+            <td><span class="badge badge-medium">MEDIUM</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Wed, Feb 25</td>
+            <td></td>
+        </tr><tr class="row-high">
+            <td>10</td>
+            <td>Belief Integrity</td>
+            <td>Contamination</td>
+            <td class="item-col">Every Wiom message reinforces the Recharge Wala Ghar Ka Net model, never contradicts it — copy across all chat touchpoints is being aligned to standards doc. Inconsistent language is contamination.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-design">In Design</span></td>
+            <td>Wed, Feb 25</td>
+            <td></td>
+        </tr><tr class="row-high">
+            <td>11</td>
+            <td>Belief Integrity</td>
+            <td>Contamination</td>
+            <td class="item-col">Legacy customers who migrate carry the correct mental model of RWGKN, not their old one — migration isn't a technical switch; it's re-establishing clarity. Contaminated word-of-mouth from migrated customers is a downstream kill signal.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Wed, Feb 25</td>
+            <td>Decide benchmarks for comms effectiveness</td>
+        </tr><tr class="row-high">
+            <td>12</td>
+            <td>Belief Integrity</td>
+            <td>Contamination</td>
+            <td class="item-col">Payment constructs that contradict the recharge model don't survive unchallenged — autopay and long-term plans may themselves be contamination. Do they belong in a recharge-credit world?</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-decision">Decisions Pending</span></td>
+            <td>Feb 24, 2026</td>
+            <td>exclude from migration for first two weeks; see learnings; determine construct. LTP - evaluate data; ltp will exist pricing may change</td>
+        </tr><tr class="row-high">
+            <td>13</td>
+            <td>Belief Integrity</td>
+            <td>Clarity</td>
+            <td class="item-col">A customer who is confused during booking gets help at the point of confusion, not after — chat-based contextual guidance embedded in the booking flow.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Fri, Feb 27 Release</td>
+            <td>prioritise for callback as well</td>
+        </tr><tr class="row-high">
+            <td>14</td>
+            <td>Belief Integrity</td>
+            <td>Clarity</td>
+            <td class="item-col">When a customer expresses a recognised intent, the response they get is accurate, complete, and adheres to our communication guidelines — current responses to known intents are inconsistent or incomplete. Fixing the quality of what we already handle is prerequisite to expanding what we handle.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Fri, Feb 27; Copy changes/improvements - Wed, Feb 25</td>
+            <td></td>
+        </tr><tr class="row-high">
+            <td>15</td>
+            <td>Belief Integrity</td>
+            <td>Clarity</td>
+            <td class="item-col">A customer who is waiting knows why they are waiting and for how long — proactive delay messaging so the 40-50% of post-booking calls asking &quot;where's my install?&quot; never need to happen.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Fri, Feb 27 Release</td>
+            <td>status calls should go down</td>
+        </tr><tr class="row-high">
+            <td>16</td>
+            <td>Operational Integrity</td>
+            <td>System Completeness</td>
+            <td class="item-col">A customer never hears &quot;yes you can get this&quot; followed by &quot;actually no you can't&quot; — the dual G1 serviceability check creates contradictory signals. May need fundamental redesign.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-design">In Design</span></td>
+            <td>To be prioritised</td>
+            <td>check for mismatch in pincodes between address entered and lat long based address</td>
+        </tr><tr class="row-high">
+            <td>17</td>
+            <td>Operational Integrity</td>
+            <td>System Completeness</td>
+            <td class="item-col">A customer who has been assigned a Rohit actually gets a Rohit — diagnosing why technicians are assigned but don't arrive.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-rca">RCA</span></td>
+            <td>Thu, Feb 26</td>
+            <td>check for Adit calling data output</td>
+        </tr><tr class="row-high">
+            <td>18</td>
+            <td>Operational Integrity</td>
+            <td>System Completeness</td>
+            <td class="item-col">A customer who has paid doesn't silently disappear before confirming their location — diagnosing and fixing the drop between booking fee payment and SSID/address entry.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-design">In Design</span></td>
+            <td>Design Feb 25, 2026</td>
+            <td>design to be finalised</td>
+        </tr><tr class="row-high">
+            <td>19</td>
+            <td>Operational Integrity</td>
+            <td>System Completeness</td>
+            <td class="item-col">When a customer recharges, it works — every time, without manual intervention — ISP recharge automation so the &quot;I pay, I get internet&quot; loop never breaks.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-devdesign">In Dev / Design</span></td>
+            <td>Agentic: Fri, Feb 27; CSP App: Thu, Feb 26; Complete Release – TARGET Thu, Feb 26 w/ release plan</td>
+            <td></td>
+        </tr><tr class="row-high">
+            <td>20</td>
+            <td>Operational Integrity</td>
+            <td>System Completeness</td>
+            <td class="item-col">A notification sent by Wiom actually reaches the customer, the CSP, and the Rohit — delivery fixes and fallbacks so that failed notifications don't silently break the installation chain.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-rca">RCA</span></td>
+            <td>Thu, Feb 26</td>
+            <td></td>
+        </tr><tr class="row-high">
+            <td>21</td>
+            <td>Operational Integrity</td>
+            <td>System Completeness</td>
+            <td class="item-col">A customer doesn't miss critical information because they weren't sitting in the app — notification system for chat messages so time-sensitive updates reach customers reliably.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-dev">In Dev</span></td>
+            <td>Fri, Feb 27 Release</td>
+            <td></td>
+        </tr><tr class="row-high">
+            <td>22</td>
+            <td>Operational Integrity</td>
+            <td>Partner Adherence</td>
+            <td class="item-col">A CSP who installs feels the work is worth doing — ₹300-per-install rule. Intent is pride, not volume. Incentive must reinforce pull, not push.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-ready">Ready for Release</span></td>
+            <td>TBD</td>
+            <td>Check if comms outside app is required, Ashish to check with Shiva/OS</td>
+        </tr><tr class="row-high">
+            <td>23</td>
+            <td>Operational Integrity</td>
+            <td>Partner Adherence</td>
+            <td class="item-col">A CSP knows the financial consequences for breach of system rules, not after — disintermediation/ other breach asset recovery charges communicated upfront and clearly.</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-design">In Design</span></td>
+            <td>Feb 25, 2026</td>
+            <td></td>
+        </tr><tr class="">
+            <td>24</td>
+            <td>Operational Integrity</td>
+            <td>Partner Adherence</td>
+            <td class="item-col">A CSP who wants to leave can leave cleanly — Exit OS so departing CSPs don't ghost or operate around the system on their way out.</td>
+            <td><span class="badge badge-medium">MEDIUM</span></td>
+            <td><span class="status-pill status-decision">Decisions Pending</span></td>
+            <td>TBD</td>
+            <td></td>
+        </tr><tr class="row-high">
+            <td>25</td>
+            <td>Operational Integrity</td>
+            <td>Partner Adherence</td>
+            <td class="item-col">Partner improvisation - for partners who setup the device at office before installing at customer location, need feature to be rolled out with location capturing while router setup</td>
+            <td><span class="badge badge-high">HIGH</span></td>
+            <td><span class="status-pill status-design">In Design</span></td>
+            <td>TBD</td>
+            <td>1. Take partner addresses for both location validation during setup at office &amp; for cx to return the routers
+2. Location capture at installation to be validated with above stored address for fraud detection</td>
+        </tr></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+function showTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
