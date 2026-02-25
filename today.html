@@ -17,7 +17,7 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
 .section-title { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 16px; }
 .section-title span { color: #ff1493; }
 .section { margin-bottom: 28px; }
-.card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.card-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
 .card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 14px 16px; }
 .card-top { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
 .card-body { font-size: 13px; color: #ccc; margin-bottom: 8px; line-height: 1.5; }
@@ -54,49 +54,49 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
     <div class="section-title">Due <span>Today</span></div>
     <div class="card-grid"><div class="card">
                 <div class="card-top"><span class="badge badge-medium">MEDIUM</span> <span class="status-pill status-dev">In Dev</span></div>
-                <div class="card-body">When a customer struggles to express themselves in text, the system meets them where they are — voice input, audio output, and other modalities so that literacy...</div>
+                <div class="card-body">When a customer struggles to express themselves in text, the system meets them where they are — voice input, audio output, and other modalities so that literacy or typing comfort is not a barrier to clarity. The customer who can't type their question clearly still deserves to understand what they bought.</div>
                 <div class="card-eta">ETA: Wed, Feb 25</div>
                 
             </div><div class="card">
                 <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-rca">RCA</span></div>
-                <div class="card-body">A customer who is owed a Netbox pickup and security deposit refund gets it without chasing — multiple breakdowns in the pickup flow creating confusion for custo...</div>
+                <div class="card-body">A customer who is owed a Netbox pickup and security deposit refund gets it without chasing — multiple breakdowns in the pickup flow creating confusion for customers and CSPs.</div>
                 <div class="card-eta">ETA: Feb 25-26 [COMMUNICATION]; Design ETA – TBD</div>
                 <div class="card-notes">inform partners about cx getting INR on router collection</div>
             </div><div class="card">
                 <div class="card-top"><span class="badge badge-medium">MEDIUM</span> <span class="status-pill status-dev">In Dev</span></div>
-                <div class="card-body">When a customer says something we don't currently recognise, the system understands it rather than hitting a dead end — LLM-based intent recognition to expand c...</div>
+                <div class="card-body">When a customer says something we don't currently recognise, the system understands it rather than hitting a dead end — LLM-based intent recognition to expand coverage beyond hardcoded flows. A dead-end response is a vacuum the customer fills with their own (wrong) mental model.</div>
                 <div class="card-eta">ETA: Wed, Feb 25</div>
                 
             </div><div class="card">
                 <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-design">In Design</span></div>
-                <div class="card-body">Every Wiom message reinforces the Recharge Wala Ghar Ka Net model, never contradicts it — copy across all chat touchpoints is being aligned to standards doc. In...</div>
+                <div class="card-body">Every Wiom message reinforces the Recharge Wala Ghar Ka Net model, never contradicts it — copy across all chat touchpoints is being aligned to standards doc. Inconsistent language is contamination.</div>
                 <div class="card-eta">ETA: Wed, Feb 25</div>
                 
             </div><div class="card">
                 <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-dev">In Dev</span></div>
-                <div class="card-body">Legacy customers who migrate carry the correct mental model of RWGKN, not their old one — migration isn't a technical switch; it's re-establishing clarity. Cont...</div>
+                <div class="card-body">Legacy customers who migrate carry the correct mental model of RWGKN, not their old one — migration isn't a technical switch; it's re-establishing clarity. Contaminated word-of-mouth from migrated customers is a downstream kill signal.</div>
                 <div class="card-eta">ETA: Wed, Feb 25</div>
                 <div class="card-notes">Decide benchmarks for comms effectiveness</div>
             </div><div class="card">
                 <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-dev">In Dev</span></div>
-                <div class="card-body">When a customer expresses a recognised intent, the response they get is accurate, complete, and adheres to our communication guidelines — current responses to k...</div>
+                <div class="card-body">When a customer expresses a recognised intent, the response they get is accurate, complete, and adheres to our communication guidelines — current responses to known intents are inconsistent or incomplete. Fixing the quality of what we already handle is prerequisite to expanding what we handle.</div>
                 <div class="card-eta">ETA: Fri, Feb 27; Copy changes/improvements - Wed, Feb 25</div>
                 
             </div><div class="card">
                 <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-design">In Design</span></div>
-                <div class="card-body">A customer who has paid doesn't silently disappear before confirming their location — diagnosing and fixing the drop between booking fee payment and SSID/addres...</div>
+                <div class="card-body">A customer who has paid doesn't silently disappear before confirming their location — diagnosing and fixing the drop between booking fee payment and SSID/address entry.</div>
                 <div class="card-eta">ETA: Design Feb 25, 2026</div>
                 <div class="card-notes">design to be finalised</div>
             </div><div class="card">
                 <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-design">In Design</span></div>
-                <div class="card-body">A CSP knows the financial consequences for breach of system rules, not after — disintermediation/ other breach asset recovery charges communicated upfront and c...</div>
+                <div class="card-body">A CSP knows the financial consequences for breach of system rules, not after — disintermediation/ other breach asset recovery charges communicated upfront and clearly.</div>
                 <div class="card-eta">ETA: Feb 25, 2026</div>
                 
             </div></div>
 </div>
 <div class='section'><div class='section-title'><span>Overdue</span></div><div class="card-grid"><div class="card">
                 <div class="card-top"><span class="badge badge-high">HIGH</span> <span class="status-pill status-decision">Decisions Pending</span></div>
-                <div class="card-body">Payment constructs that contradict the recharge model don't survive unchallenged — autopay and long-term plans may themselves be contamination. Do they belong i...</div>
+                <div class="card-body">Payment constructs that contradict the recharge model don't survive unchallenged — autopay and long-term plans may themselves be contamination. Do they belong in a recharge-credit world?</div>
                 <div class="card-eta">ETA: Feb 24, 2026</div>
                 <div class="card-notes">exclude from migration for first two weeks; see learnings; determine construct. LTP - evaluate data; ltp will exist pricing may change</div>
             </div></div></div>
